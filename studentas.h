@@ -32,4 +32,5 @@ public:
     void setPavarde(const std::string& pavarde);
     void setPazymiai(const std::vector<int>& pazymiai);
     void setEgzaminas(int egzaminas);
+    void skaiciuotiGalutini();
 };

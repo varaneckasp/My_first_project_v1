@@ -1,4 +1,5 @@
 #include "studentas.h"
+#include <algorithm>
 
 Studentas::Studentas()
     : egzaminas_(0),
@@ -54,4 +55,34 @@ void Studentas::setPazymiai(const std::vector<int>& pazymiai) {
 }
 void Studentas::setEgzaminas(int egzaminas) {
     egzaminas_ = egzaminas;
+}
+void Studentas::skaiciuotiGalutini() {
+    if (pazymiai_.empty()) {
+        galutinis_ = 0;
+        galutinis_mediana_ = 0;
+        return;
+    }
+
+    double suma = 0;
+
+    for (int pazymys : pazymiai_) {
+        suma += pazymys;
+    }
+
+    double vidurkis = suma / pazymiai_.size();
+
+    std::sort(pazymiai_.begin(), pazymiai_.end());
+
+    double mediana;
+    int n = pazymiai_.size();
+
+    if (n % 2 == 0) {
+        mediana = (pazymiai_[n / 2 - 1] +
+                   pazymiai_[n / 2]) / 2.0;
+    } else {
+        mediana = pazymiai_[n / 2];
+    }
+
+    galutinis_ = 0.4 * vidurkis + 0.6 * egzaminas_;
+    galutinis_mediana_ = 0.4 * mediana + 0.6 * egzaminas_;
 }
