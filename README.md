@@ -169,4 +169,4 @@ Programa paleidžiama komanda:
 
     .\build-mingw\studentai.exe
 
-Paleidus programą galima pasirinkti vector arba list konteinerį, duomenų įvedimo būdą ir studentų skirstymo strategiją. Taip pat galima atlikti automatinį strategijų greičio testavimą.
+Paleidus programą galima pasirinkti vector arba list konteinerį, duomenų įvedimo būdą ir studentų skirstymo strategiją.

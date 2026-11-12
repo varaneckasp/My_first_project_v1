@@ -12,7 +12,7 @@
 #include "funkcijos.h"
 using std::string;
 using std::vector;
-template <typename T>
+/*template <typename T>
 double matuotiStrategija(const T& pradineGrupe, int strategija, int vertinimo_pasirinkimas) {
 
     double laikuSuma = 0;
@@ -49,6 +49,7 @@ double matuotiStrategija(const T& pradineGrupe, int strategija, int vertinimo_pa
 
     return laikuSuma / 5;
 }
+*/
 template <typename T> void vykdytiPrograma(){
     T grupe;
     T vargsiukai;
@@ -208,7 +209,7 @@ template <typename T> void vykdytiPrograma(){
         std::cin >> vertinimo_pasirinkimas;
         int testavimo_pasirinkimas;
 
-std::cout << "Ar norite atlikti automatini testavima? (1 - taip, 2 - ne): ";
+/*std::cout << "Ar norite atlikti automatini testavima? (1 - taip, 2 - ne): ";
 std::cin >> testavimo_pasirinkimas;
 if (testavimo_pasirinkimas == 1) {
     for (int i = 1; i <= 3; i++) {
@@ -216,11 +217,13 @@ if (testavimo_pasirinkimas == 1) {
         std::cout << i << " strategijos vidutinis laikas: " << vidurkis << " sekundziu." << std::endl;
     }
     return;
+
 }
 else if (testavimo_pasirinkimas != 2) {
     std::cout << "Neteisingas pasirinkimas!" << std::endl;
     return;
 }
+*/
         int strategija;
         std::cout<<"Pasirinkite strategija: 1 - skirstyti studentus i dvi grupes, 2 - skirstyti studentus i viena grupe ir is jos istrinti vargsiukus, 3 - naudoti std::partition"<<std::endl;
         std::cin>>strategija;
