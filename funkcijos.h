@@ -41,6 +41,34 @@ bool skaitytiFaila (const std::string &failo_pavadinimas, T &grupe) {
         }
          return true;
     }
+    template <typename T>
+bool skaitytiFailaKlase(const std::string& failo_pavadinimas, T& grupe) {
+    std::ifstream fd(failo_pavadinimas);
+
+    if (!fd.is_open()) {
+        std::cout << "Nepavyko atidaryti failo!\n";
+        return false;
+    }
+
+    std::string eilute;
+    std::getline(fd, eilute);
+
+    while (std::getline(fd, eilute)) {
+        std::stringstream ss(eilute);
+
+        Studentas A(ss);
+
+        if (A.getVardas().empty() ||
+            A.getPavarde().empty() ||
+            A.getPazymiai().empty()) {
+            continue;
+        }
+
+        grupe.push_back(A);
+    }
+
+    return true;
+}
 template <typename T>
 void skirstytiStudentus(const T&grupe, T&vargsiukai, T&kietiakai, int vertinimo_pasirinkimas){
         for (const studentas& A : grupe) {
@@ -85,8 +113,21 @@ void skirstytiStudentus2(T&grupe, T&vargsiukai, int vertinimo_pasirinkimas){
 }
 void skirstytiStudentus3(std::vector<studentas>& grupe,std::vector<studentas>& vargsiukai,int vertinimo_pasirinkimas);
 void skirstytiStudentus3(std::list<studentas>& grupe,std::list<studentas>& vargsiukai,int vertinimo_pasirinkimas);
+void skirstytiStudentus3(
+    std::vector<Studentas>& grupe,
+    std::vector<Studentas>& vargsiukai,
+    int vertinimo_pasirinkimas
+);
+
+void skirstytiStudentus3(
+    std::list<Studentas>& grupe,
+    std::list<Studentas>& vargsiukai,
+    int vertinimo_pasirinkimas
+);
 void rusiuotiStudentus(std::vector<studentas> &grupe, int rusiuoti_pasirinkimas);
 void rusiuotiStudentus(std::list<studentas> &grupe, int rusiuoti_pasirinkimas);
+void rusiuotiStudentus(std::vector<Studentas>& grupe, int rusiuoti_pasirinkimas);
+void rusiuotiStudentus(std::list<Studentas>& grupe, int rusiuoti_pasirinkimas);
 template <typename T>
 bool rasytiFailus(const T& vargsiukai, const T& kietiakai, int vertinimo_pasirinkimas) {
         std::ofstream failas_vargsiukai("vargsiukai.txt");

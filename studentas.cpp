@@ -25,6 +25,7 @@ Studentas::Studentas(std::istream& is) : Studentas() {
         egzaminas_ = pazymiai_.back();
         pazymiai_.pop_back();
     }
+    skaiciuotiGalutini();
 }
 const std::string& Studentas::getVardas() const {
     return vardas_;
@@ -52,9 +53,11 @@ void Studentas::setPavarde(const std::string& pavarde) {
 }
 void Studentas::setPazymiai(const std::vector<int>& pazymiai) {
     pazymiai_ = pazymiai;
+    skaiciuotiGalutini();
 }
 void Studentas::setEgzaminas(int egzaminas) {
     egzaminas_ = egzaminas;
+    skaiciuotiGalutini();
 }
 void Studentas::skaiciuotiGalutini() {
     if (pazymiai_.empty()) {
