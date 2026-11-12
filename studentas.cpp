@@ -43,3 +43,15 @@ double Studentas::getGalutinis() const {
 double Studentas::getGalutinisMediana() const {
     return galutinis_mediana_;
 }
+void Studentas::setVardas(const std::string& vardas) {
+    vardas_ = vardas;
+}
+void Studentas::setPavarde(const std::string& pavarde) {
+    pavarde_ = pavarde;
+}
+void Studentas::setPazymiai(const std::vector<int>& pazymiai) {
+    pazymiai_ = pazymiai;
+}
+void Studentas::setEgzaminas(int egzaminas) {
+    egzaminas_ = egzaminas;
+}

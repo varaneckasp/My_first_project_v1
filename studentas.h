@@ -28,4 +28,8 @@ public:
     int getEgzaminas() const;
     double getGalutinis() const;
     double getGalutinisMediana() const;
+    void setVardas(const std::string& vardas);
+    void setPavarde(const std::string& pavarde);
+    void setPazymiai(const std::vector<int>& pazymiai);
+    void setEgzaminas(int egzaminas);
 };
