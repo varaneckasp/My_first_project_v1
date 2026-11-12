@@ -18,5 +18,6 @@ private:
     double galutinis_mediana_ = 0.0;
 
 public:
-    Studentas() = default;
+    Studentas();
+    ~Studentas();
 };
