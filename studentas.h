@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <istream>
 struct studentas{
     std::string vardas, pavarde;
     std::vector<int> pazymiai;
@@ -20,4 +21,11 @@ private:
 public:
     Studentas();
     ~Studentas();
+    explicit Studentas(std::istream& is);
+    const std::string& getVardas() const;
+    const std::string& getPavarde() const;
+    const std::vector<int>& getPazymiai() const;
+    int getEgzaminas() const;
+    double getGalutinis() const;
+    double getGalutinisMediana() const;
 };
