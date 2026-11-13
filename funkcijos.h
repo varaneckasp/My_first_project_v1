@@ -71,15 +71,15 @@ bool skaitytiFailaKlase(const std::string& failo_pavadinimas, T& grupe) {
 }
 template <typename T>
 void skirstytiStudentus(const T&grupe, T&vargsiukai, T&kietiakai, int vertinimo_pasirinkimas){
-        for (const studentas& A : grupe) {
+        for (const Studentas& A : grupe) {
             if (vertinimo_pasirinkimas == 1) {
-                if (A.galutinis_mediana < 5) {
+                if (A.getGalutinisMediana() < 5) {
                     vargsiukai.push_back(A);
                 } else {
                     kietiakai.push_back(A);
                 }
             } else if (vertinimo_pasirinkimas == 2) {
-                if (A.galutinis < 5) {
+                if (A.getGalutinis() < 5) {
                     vargsiukai.push_back(A);
                 } else {
                     kietiakai.push_back(A);
@@ -96,9 +96,9 @@ void skirstytiStudentus2(T&grupe, T&vargsiukai, int vertinimo_pasirinkimas){
         while(it != grupe.end()) {
             bool arVargsiukas;
             if (vertinimo_pasirinkimas == 1) {
-                arVargsiukas = (it->galutinis_mediana < 5);
+                arVargsiukas = (it->getGalutinisMediana() < 5);
             } else if (vertinimo_pasirinkimas == 2) {
-                arVargsiukas = (it->galutinis < 5);
+                arVargsiukas = (it->getGalutinis() < 5);
             } else {
                 std::cout << "Neteisingas pasirinkimas!\n";
                 return;
@@ -169,5 +169,51 @@ bool rasytiFailus(const T& vargsiukai, const T& kietiakai, int vertinimo_pasirin
         failas_kietiakai.flush();
         return failas_vargsiukai.good() && failas_kietiakai.good();
     }
+    template <typename T>
+    bool rasytiFailusKlase(const T& vargsiukai,const T& kietiakai,int vertinimo_pasirinkimas) {
+    std::ofstream fv("vargsiukai.txt");
+    std::ofstream fk("kietiakai.txt");
+
+    if (!fv || !fk) {
+        std::cout << "Nepavyko atidaryti rezultatu failu!\n";
+        return false;
+    }
+
+    auto irasytiGrupe = [vertinimo_pasirinkimas](
+        std::ofstream& failas,
+        const T& grupe
+    ) {
+        failas << std::left
+               << std::setw(20) << "Vardas"
+               << std::setw(20) << "Pavarde"
+               << "Galutinis\n";
+
+        for (const Studentas& A : grupe) {
+            double balas = (vertinimo_pasirinkimas == 1)
+                ? A.getGalutinisMediana()
+                : A.getGalutinis();
+
+            failas << std::left
+                   << std::setw(20) << A.getVardas()
+                   << std::setw(20) << A.getPavarde()
+                   << std::fixed << std::setprecision(2)
+                   << balas << '\n';
+        }
+    };
+
+    irasytiGrupe(fv, vargsiukai);
+    irasytiGrupe(fk, kietiakai);
+
+    fv.flush();
+    fk.flush();
+
+    return fv.good() && fk.good();
+}
     void rezervuotiVieta(std::vector<studentas>& grupe, size_t kiekis);
     void rezervuotiVieta(std::list<studentas>& grupe, size_t kiekis);
+    inline void rezervuotiVieta(std::vector<Studentas>& grupe, size_t kiekis) {
+    grupe.reserve(kiekis);
+}
+
+inline void rezervuotiVieta(std::list<Studentas>& grupe, size_t kiekis) {
+}

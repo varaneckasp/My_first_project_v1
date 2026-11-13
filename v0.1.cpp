@@ -56,7 +56,6 @@ template <typename T> void vykdytiPrograma(){
     T kietiakai;
     srand(time(0));
     std::chrono::duration<double> skirtumas;
-    studentas A;
     size_t studentu_skaicius = 0;
     std::cout << "Kaip norite ivesti studentu duomenis? rankiniu budu/generuoti(1)? Ar nuskaityti is failo(2)?" << std::endl;
     std::cout << "Ar norite sugeneruoti atsitiktinius failus?(3) " << std::endl;
@@ -67,21 +66,25 @@ template <typename T> void vykdytiPrograma(){
         int n;
         std::cin >> n;
         std::cin.ignore();
-
+        Studentas A;
+        std::vector<int> pazymiai;
         for (int i = 0; i < n; i++) {
             std::cout << "Iveskite varda ir pavarde per tarpa: ";
-            std::cin >> A.vardas >> A.pavarde;
+            std::string vardas, pavarde;
+            std::cin >> vardas >> pavarde;
+            A.setVardas(vardas);
+            A.setPavarde(pavarde);
 
             std::cout << "Ar pazymius ivesite ranka (1) ar generuosite atsitiktinius pazymius (2)? ";
             int pasirinkimas;
             std::cin >> pasirinkimas;
-
+            int egzaminas;
             if (pasirinkimas == 2) {
                 int kiek_pazymiu = rand() % 10 + 1;
-                A.pazymiai.clear();
+                pazymiai.clear();
                 for (int j = 0; j < kiek_pazymiu; j++) {
                     int pazimys = rand() % 10 + 1;
-                    A.pazymiai.push_back(pazimys);
+                    pazymiai.push_back(pazimys);
                 }
             } else {
                 std::cout << "Iveskite studento namu darbu pazymius po viena spausdami enter, kai baigsite paspauskite enter nieko neivedus: ";
@@ -97,7 +100,7 @@ template <typename T> void vykdytiPrograma(){
                         if (pazimys < 1 || pazimys > 10) {
                             std::cout << "Ivestas netinkamas pazymys. Iveskite pazymi nuo 1 iki 10: ";
                         } else {
-                            A.pazymiai.push_back(pazimys);
+                            pazymiai.push_back(pazimys);
                         }
                     }
                     catch (...) {
@@ -110,14 +113,15 @@ template <typename T> void vykdytiPrograma(){
             int pasirinkimas_egz;
             std::cin >> pasirinkimas_egz;
             if (pasirinkimas_egz == 2) {
-                A.exam = rand() % 10 + 1;
+                egzaminas = rand() % 10 + 1;
             } else {
                 std::cout << "Iveskite studento egzamino rezultata: ";
-                std::cin >> A.exam;
+                std::cin >> egzaminas;
             }
-            skaiciuotiGalutini(A);
+            A.setPazymiai(pazymiai);
+            A.setEgzaminas(egzaminas);
             grupe.push_back(A);
-            std::cout << "Studento adresas atmintyje: " << &grupe.back() << '\n';
+            //std::cout << "Studento adresas atmintyje: " << &grupe.back() << '\n';
         }
     } else if (failo_pasirinkimas == 2) {
         std::cout<< "Kuri faila norite nuskaityti?"<< std::endl;
@@ -155,7 +159,7 @@ template <typename T> void vykdytiPrograma(){
         }
         rezervuotiVieta(grupe, studentu_skaicius);
         auto laikas_pradzia = std::chrono::high_resolution_clock::now();
-        if(!skaitytiFaila(failo_pavadinimas, grupe)) {
+        if(!skaitytiFailaKlase(failo_pavadinimas, grupe)) {
         return;
         }
         auto laikas_pabaiga = std::chrono::high_resolution_clock::now();
@@ -257,9 +261,9 @@ else if (testavimo_pasirinkimas != 2) {
         auto laikas_pradzia3 = std::chrono::high_resolution_clock::now();
         bool arRezultataiSurasyti;
         if (strategija == 1) {
-            arRezultataiSurasyti = rasytiFailus(vargsiukai, kietiakai, vertinimo_pasirinkimas);
+            arRezultataiSurasyti = rasytiFailusKlase(vargsiukai, kietiakai, vertinimo_pasirinkimas);
         } else if (strategija == 2 || strategija == 3) {
-            arRezultataiSurasyti = rasytiFailus(vargsiukai, grupe, vertinimo_pasirinkimas);
+            arRezultataiSurasyti = rasytiFailusKlase(vargsiukai, grupe, vertinimo_pasirinkimas);
         } else {
             std::cout<< "Nepavyko surasyti rezultatu!"<< '\n';
             return;
@@ -275,9 +279,9 @@ int main()
     std::cout << "Pasirinkite konteinerio tipa: (1 - vector, 2 - list)" << std::endl;
     std::cin >> pasirinkimas;
     if (pasirinkimas == 1) {
-        vykdytiPrograma<std::vector<studentas>>();
+        vykdytiPrograma<std::vector<Studentas>>();
     } else if (pasirinkimas == 2) {
-        vykdytiPrograma<std::list<studentas>>();
+        vykdytiPrograma<std::list<Studentas>>();
     } else {
         std::cout << "Neteisingas pasirinkimas!" << std::endl;
         return 1;
