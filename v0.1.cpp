@@ -10,46 +10,9 @@
 #include <chrono>
 #include "studentas.h"
 #include "funkcijos.h"
+#include <utility>
 using std::string;
 using std::vector;
-/*template <typename T>
-double matuotiStrategija(const T& pradineGrupe, int strategija, int vertinimo_pasirinkimas) {
-
-    double laikuSuma = 0;
-    volatile double patikra = 0;
-
-    for (int i = 0; i < 5; i++) {
-        T grupe = pradineGrupe;
-        T vargsiukai;
-        T kietiakai;
-
-        auto pradzia = std::chrono::steady_clock::now();
-
-        if (strategija == 1) {
-            skirstytiStudentus(grupe, vargsiukai, kietiakai,
-                              vertinimo_pasirinkimas);
-        }
-        else if (strategija == 2) {
-            skirstytiStudentus2(grupe, vargsiukai,
-                               vertinimo_pasirinkimas);
-        }
-        else if (strategija == 3) {
-            skirstytiStudentus3(grupe, vargsiukai,
-                               vertinimo_pasirinkimas);
-        }
-
-        auto pabaiga = std::chrono::steady_clock::now();
-
-        std::chrono::duration<double> laikas = pabaiga - pradzia;
-        laikuSuma += laikas.count();
-        for (const studentas& A : vargsiukai) {
-            patikra += A.galutinis;
-        }
-    }
-
-    return laikuSuma / 5;
-}
-*/
 template <typename T> void vykdytiPrograma(){
     T grupe;
     T vargsiukai;
@@ -120,7 +83,7 @@ template <typename T> void vykdytiPrograma(){
             }
             A.setPazymiai(pazymiai);
             A.setEgzaminas(egzaminas);
-            grupe.push_back(A);
+            grupe.push_back(std::move(A));
             //std::cout << "Studento adresas atmintyje: " << &grupe.back() << '\n';
         }
     } else if (failo_pasirinkimas == 2) {
@@ -211,25 +174,12 @@ template <typename T> void vykdytiPrograma(){
         int vertinimo_pasirinkimas;
         std::cout << "Pagal ka norite rusiuoti studentus? (1 - mediana, 2 - vidurki)" << std::endl;
         std::cin >> vertinimo_pasirinkimas;
-        int testavimo_pasirinkimas;
-
-/*std::cout << "Ar norite atlikti automatini testavima? (1 - taip, 2 - ne): ";
-std::cin >> testavimo_pasirinkimas;
-if (testavimo_pasirinkimas == 1) {
-    for (int i = 1; i <= 3; i++) {
-        double vidurkis = matuotiStrategija(grupe, i, vertinimo_pasirinkimas);
-        std::cout << i << " strategijos vidutinis laikas: " << vidurkis << " sekundziu." << std::endl;
-    }
-    return;
-
-}
-else if (testavimo_pasirinkimas != 2) {
-    std::cout << "Neteisingas pasirinkimas!" << std::endl;
-    return;
-}
-*/
+        if (vertinimo_pasirinkimas != 1 && vertinimo_pasirinkimas != 2) {
+            std::cout << "Neteisingas pasirinkimas!\n";
+            return;
+        }
         int strategija;
-        std::cout<<"Pasirinkite strategija: 1 - skirstyti studentus i dvi grupes, 2 - skirstyti studentus i viena grupe ir is jos istrinti vargsiukus, 3 - naudoti std::partition"<<std::endl;
+        std::cout<<"Pasirinkite strategija: 1 - skirstyti studentus i dvi grupes, 2 - skirstyti studentus i viena grupe ir is jos istrinti vargsiukus, 3 - naudoti std::partition su vector ar splice su list"<<std::endl;
         std::cin>>strategija;
         auto laikas_pradzia = std::chrono::high_resolution_clock::now();
         if(strategija == 1){

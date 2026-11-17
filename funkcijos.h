@@ -6,6 +6,7 @@
 #include <list>
 #include <iomanip>
 #include <cstddef>
+#include <utility>
 void atsitiktinis_sarasas(const std::string &failo_pavadinimas, int studentu_skaicius);
 template <typename T>
 bool skaitytiFailaKlase(const std::string& failo_pavadinimas, T& grupe) {
@@ -30,7 +31,7 @@ bool skaitytiFailaKlase(const std::string& failo_pavadinimas, T& grupe) {
             continue;
         }
 
-        grupe.push_back(A);
+        grupe.push_back(std::move(A));
     }
 
     return true;

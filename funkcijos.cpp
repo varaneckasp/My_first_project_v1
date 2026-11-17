@@ -49,19 +49,23 @@ void skirstytiStudentus3(std::vector<Studentas>& grupe,std::vector<Studentas>& v
     grupe.erase(riba, grupe.end());
 }
 void skirstytiStudentus3(std::list<Studentas>& grupe,std::list<Studentas>& vargsiukai,int vertinimo_pasirinkimas) {
-    auto riba = std::partition(
-        grupe.begin(), grupe.end(),
-        [vertinimo_pasirinkimas](const Studentas& A) {
+    auto it = grupe.begin();
+        while(it != grupe.end()) {
+        bool arVargsiukas;
             if (vertinimo_pasirinkimas == 1) {
-                return A.getGalutinisMediana() >= 5;
-            } else {
-                return A.getGalutinis() >= 5;
+                arVargsiukas = (it->getGalutinisMediana() < 5);
             }
-        }
-    );
-
-    vargsiukai.insert(vargsiukai.end(), riba, grupe.end());
-    grupe.erase(riba, grupe.end());
+            else {
+                arVargsiukas = (it->getGalutinis() < 5);
+            }
+            if (arVargsiukas) {
+                auto dabartinis = it++;
+                vargsiukai.splice(vargsiukai.end(), grupe, dabartinis);
+            } 
+            else {
+                ++it;
+            }
+    }
 }
 void rusiuotiStudentus(std::vector<Studentas>& grupe, int rusiuoti_pasirinkimas) {
     if (rusiuoti_pasirinkimas == 1) {

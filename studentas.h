@@ -15,6 +15,10 @@ public:
     Studentas();
     ~Studentas();
     explicit Studentas(std::istream& is);
+    Studentas(const Studentas&) = default;
+    Studentas& operator=(const Studentas&) = default;
+    Studentas(Studentas&&)  noexcept= default;
+    Studentas& operator=(Studentas&&) noexcept = default;
     const std::string& getVardas() const;
     const std::string& getPavarde() const;
     const std::vector<int>& getPazymiai() const;
