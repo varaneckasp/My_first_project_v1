@@ -9,15 +9,6 @@
 bool palygintiVardusKlase(const Studentas& a, const Studentas& b);
 bool palygintiPavardesKlase(const Studentas& a, const Studentas& b);
 bool palygintiGalutiniusKlase(const Studentas& a, const Studentas& b);
-bool palygintiVardus(const studentas &a, const studentas &b) {
-    return a.vardas < b.vardas;
-}
-bool palygintiPavardes(const studentas &a, const studentas &b) {
-    return a.pavarde < b.pavarde;
-}
-bool palygintiGalutinius(const studentas &a, const studentas &b) {
-    return a.galutinis < b.galutinis;
-}
 void atsitiktinis_sarasas(const std::string &failo_pavadinimas, int studentu_skaicius) {
     std::ofstream fd(failo_pavadinimas);
     if (!fd.is_open()) {
@@ -42,67 +33,6 @@ void atsitiktinis_sarasas(const std::string &failo_pavadinimas, int studentu_ska
     }
     fd.close();
 }
-
-void skaiciuotiGalutini(studentas& A) {
-    double suma = 0;
-    for (int i = 0; i < A.pazymiai.size(); i++) {
-        suma += A.pazymiai[i];
-    }
-    if (A.pazymiai.empty()) {
-        A.galutinis = 0;
-        A.galutinis_mediana = 0;
-        return;
-    }
-    double vidurkis = suma / A.pazymiai.size();
-    double mediana;
-    std::sort(A.pazymiai.begin(), A.pazymiai.end());
-    if (A.pazymiai.size() % 2 == 0) {
-        int mid = A.pazymiai.size() / 2;
-        mediana = (A.pazymiai[mid - 1] + A.pazymiai[mid]) / 2.0;
-    } else {
-        int mid = A.pazymiai.size() / 2;
-        mediana = A.pazymiai[mid];
-    }
-    A.galutinis = 0.4 * vidurkis + 0.6 * A.exam;
-    A.galutinis_mediana = 0.4 * mediana + 0.6 * A.exam;
-}
-void skaitytiFaila (const std::string &failo_pavadinimas, std::vector<studentas> &grupe) {
-    std::ifstream fd(failo_pavadinimas);
-        if (!fd.is_open()) {
-            std::cout << "Nepavyko atidaryti failo!" << std::endl;
-            return;
-        }
-        std::string eilute;
-        std::getline(fd, eilute);
-        while(std::getline(fd,eilute)) {
-            std::stringstream ss(eilute);
-            studentas A;
-            ss >> A.vardas >> A.pavarde;
-            int pazymys;
-            while (ss >> pazymys) {
-                A.pazymiai.push_back(pazymys);
-            }
-                A.exam = A.pazymiai.back();
-                A.pazymiai.pop_back();
-                skaiciuotiGalutini(A);
-                grupe.push_back(A);
-        }
-    }
-    void skirstytiStudentus3(std::vector<studentas>& grupe,std::vector<studentas>& vargsiukai,int vertinimo_pasirinkimas) {
-
-    auto riba = std::partition(grupe.begin(), grupe.end(),
-        [vertinimo_pasirinkimas](const studentas& A) {
-            if (vertinimo_pasirinkimas == 1) {
-                return A.galutinis_mediana >= 5;
-            } else {
-                return A.galutinis >= 5;
-            }
-        });
-
-    vargsiukai.insert(vargsiukai.end(), riba, grupe.end());
-
-    grupe.erase(riba, grupe.end());
-}
 void skirstytiStudentus3(std::vector<Studentas>& grupe,std::vector<Studentas>& vargsiukai,int vertinimo_pasirinkimas) {
     auto riba = std::partition(
         grupe.begin(), grupe.end(),
@@ -118,40 +48,6 @@ void skirstytiStudentus3(std::vector<Studentas>& grupe,std::vector<Studentas>& v
     vargsiukai.insert(vargsiukai.end(), riba, grupe.end());
     grupe.erase(riba, grupe.end());
 }
-void skirstytiStudentus3(std::list<studentas>& grupe,std::list<studentas>& vargsiukai,int vertinimo_pasirinkimas) {
-    auto riba = std::partition(grupe.begin(), grupe.end(),
-        [vertinimo_pasirinkimas](const studentas& A) {
-            if (vertinimo_pasirinkimas == 1) {
-                return A.galutinis_mediana >= 5;
-            } else {
-                return A.galutinis >= 5;
-            }
-        });
-
-    vargsiukai.insert(vargsiukai.end(), riba, grupe.end());
-
-    grupe.erase(riba, grupe.end());
-    /*auto it = grupe.begin();
-    while (it != grupe.end()) {
-        bool arVargsiukas;
-        if (vertinimo_pasirinkimas != 1 && vertinimo_pasirinkimas != 2) {
-        std::cout << "Neteisingas pasirinkimas!\n";
-        return;
-        }
-        if (vertinimo_pasirinkimas == 1) {
-            arVargsiukas = (it->galutinis_mediana < 5);
-        } else {
-            arVargsiukas = (it->galutinis < 5);
-        }
-        if (arVargsiukas) {
-            auto dabartinis = it++;
-            vargsiukai.splice(vargsiukai.end(), grupe, dabartinis);
-        } else {
-            ++it;
-        }
-    }
-        */
-}
 void skirstytiStudentus3(std::list<Studentas>& grupe,std::list<Studentas>& vargsiukai,int vertinimo_pasirinkimas) {
     auto riba = std::partition(
         grupe.begin(), grupe.end(),
@@ -166,30 +62,6 @@ void skirstytiStudentus3(std::list<Studentas>& grupe,std::list<Studentas>& vargs
 
     vargsiukai.insert(vargsiukai.end(), riba, grupe.end());
     grupe.erase(riba, grupe.end());
-}
-void rusiuotiStudentus(std::vector<studentas> &grupe, int rusiuoti_pasirinkimas) {
-    if (rusiuoti_pasirinkimas == 1) {
-        std::sort(grupe.begin(), grupe.end(), palygintiVardus);
-    } else if (rusiuoti_pasirinkimas == 2) {
-        std::sort(grupe.begin(), grupe.end(), palygintiPavardes);
-    } else if (rusiuoti_pasirinkimas == 3) {
-        std::sort(grupe.begin(), grupe.end(), palygintiGalutinius);
-    } else {
-        std::cout << "Neteisingas pasirinkimas!" << std::endl;
-        return;
-    }
-}
-void rusiuotiStudentus(std::list<studentas> &grupe, int rusiuoti_pasirinkimas) {
-    if (rusiuoti_pasirinkimas == 1) {
-        grupe.sort(palygintiVardus);
-    } else if (rusiuoti_pasirinkimas == 2) {
-        grupe.sort(palygintiPavardes);
-    } else if (rusiuoti_pasirinkimas == 3) {
-        grupe.sort(palygintiGalutinius);
-    } else {
-        std::cout << "Neteisingas pasirinkimas!" << std::endl;
-        return;
-    }
 }
 void rusiuotiStudentus(std::vector<Studentas>& grupe, int rusiuoti_pasirinkimas) {
     if (rusiuoti_pasirinkimas == 1) {
@@ -218,12 +90,6 @@ void rusiuotiStudentus(std::list<Studentas>& grupe, int rusiuoti_pasirinkimas) {
     else {
         std::cout << "Neteisingas pasirinkimas!\n";
     }
-}
-void rezervuotiVieta(std::vector<studentas>& grupe, size_t kiekis){
-    grupe.reserve(kiekis);
-}
-void rezervuotiVieta(std::list<studentas>& grupe, size_t kiekis){
-    // std::list does not support reserve
 }
 bool palygintiVardusKlase(const Studentas &a, const Studentas &b) {
     return a.getVardas() < b.getVardas();

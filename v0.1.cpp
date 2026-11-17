@@ -66,9 +66,9 @@ template <typename T> void vykdytiPrograma(){
         int n;
         std::cin >> n;
         std::cin.ignore();
-        Studentas A;
-        std::vector<int> pazymiai;
         for (int i = 0; i < n; i++) {
+            Studentas A;
+            std::vector<int> pazymiai;
             std::cout << "Iveskite varda ir pavarde per tarpa: ";
             std::string vardas, pavarde;
             std::cin >> vardas >> pavarde;

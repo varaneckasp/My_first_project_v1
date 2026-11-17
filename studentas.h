@@ -2,13 +2,6 @@
 #include <string>
 #include <vector>
 #include <istream>
-struct studentas{
-    std::string vardas, pavarde;
-    std::vector<int> pazymiai;
-    int exam;
-    double galutinis;
-    double galutinis_mediana;
-    };
 class Studentas {
 private:
     std::string vardas_;
