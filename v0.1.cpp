@@ -249,6 +249,10 @@ template <typename T> void vykdytiPrograma(){
             std::cout<< "Nepavyko surasyti rezultatu!"<< '\n';
             return;
         }
+        if (!arRezultataiSurasyti) {
+            std::cout << "Nepavyko irasyti rezultatu!\n";
+            return;
+        }
         auto laikas_pabaiga3 = std::chrono::high_resolution_clock::now();
         skirtumas = laikas_pabaiga3 - laikas_pradzia3;
         std::cout << "Failu rasymas uztruko " << skirtumas.count() << " sekundziu." << std::endl;
