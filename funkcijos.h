@@ -5,7 +5,6 @@
 #include <sstream>
 #include <list>
 #include <iomanip>
-#include <cstddef>
 #include <utility>
 void atsitiktinis_sarasas(const std::string &failo_pavadinimas, int studentu_skaicius);
 template <typename T>

@@ -13,6 +13,24 @@
 #include <utility>
 using std::string;
 using std::vector;
+template <typename T>
+double matuotiSkirstyma(const T& pradineGrupe, int vertinimo_pasirinkimas) {
+    double laiku_suma = 0;
+    for (int i = 0; i < 5; ++i){
+        T grupe = pradineGrupe;
+        T vargsiukai;
+        auto laikas_pradzia = std::chrono::high_resolution_clock::now();
+        skirstytiStudentus3(grupe, vargsiukai, vertinimo_pasirinkimas);
+        auto laikas_pabaiga = std::chrono::high_resolution_clock::now();
+        if (i == 4) {
+        std::cout << "Vargsiukai: " << vargsiukai.size() << '\n';
+        std::cout << "Kietiakai: " << grupe.size() << '\n';
+        }
+        std::chrono::duration<double> skirtumas = laikas_pabaiga - laikas_pradzia;
+        laiku_suma += skirtumas.count();
+    }
+    return laiku_suma / 5;
+}
 template <typename T> void vykdytiPrograma(){
     T grupe;
     T vargsiukai;
@@ -176,6 +194,18 @@ template <typename T> void vykdytiPrograma(){
         std::cin >> vertinimo_pasirinkimas;
         if (vertinimo_pasirinkimas != 1 && vertinimo_pasirinkimas != 2) {
             std::cout << "Neteisingas pasirinkimas!\n";
+            return;
+        }
+        int testavimo_pasirinkimas;
+        std::cout << "Ar norite atlikti testavima? (1 - taip, 2 - ne)" << std::endl;
+        std::cin >> testavimo_pasirinkimas;
+        if (testavimo_pasirinkimas == 1) {
+            double vidutinis_laikas = matuotiSkirstyma(grupe, vertinimo_pasirinkimas);
+            std::cout << "Vidutinis skirstymo laikas: " << vidutinis_laikas << " sekundziu." << std::endl;
+            return;
+        }
+        else if (testavimo_pasirinkimas != 2) {
+            std::cout << "Neteisingas pasirinkimas!" << std::endl;
             return;
         }
         int strategija;
