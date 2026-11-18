@@ -25,6 +25,7 @@ double matuotiSkirstyma(const T& pradineGrupe, int vertinimo_pasirinkimas) {
         if (i == 4) {
         std::cout << "Vargsiukai: " << vargsiukai.size() << '\n';
         std::cout << "Kietiakai: " << grupe.size() << '\n';
+        std::cout << "Is viso studentu: " << vargsiukai.size() + grupe.size() << '\n';
         }
         std::chrono::duration<double> skirtumas = laikas_pabaiga - laikas_pradzia;
         laiku_suma += skirtumas.count();
