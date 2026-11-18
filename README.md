@@ -170,3 +170,61 @@ Programa paleidžiama komanda:
     .\build-mingw\studentai.exe
 
 Paleidus programą galima pasirinkti vector arba list konteinerį, duomenų įvedimo būdą ir studentų skirstymo strategiją.
+
+## v1.1 – Perėjimas nuo struct prie class
+
+Šioje versijoje ankstesnė studentų struktūra buvo pakeista į
+Studentas klasę. Klasės duomenys yra privatūs, o prieiga prie jų
+vykdoma naudojant get ir set metodus. Taip pat naudojami
+konstruktoriai ir destruktorius.
+
+Programoje išsaugotas studentų skaitymas, galutinio balo
+skaičiavimas, rūšiavimas ir skirstymas į dvi grupes.
+
+### Spartos tyrimo metodika
+
+Palyginau ankstesnę v1.0 (struct) ir dabartinę v1.1 (class)
+programų realizacijas.
+
+Bandymų sąlygos:
+- Naudotas vector konteineris.
+- Naudota trečioji studentų skirstymo strategija.
+- Studentai skirstyti pagal galutinį balą (vidurkį).
+- Naudoti 100 000 ir 1 000 000 studentų failai.
+- Kiekvienas skirstymo bandymas pakartotas 5 kartus.
+- Matuotas tik skirstymo laikas, neįtraukiant duomenų kopijavimo.
+- Išbandyti O1, O2 ir O3 kompiliatoriaus optimizavimo lygiai.
+- Užfiksuoti vykdomųjų EXE failų dydžiai.
+
+### Optimizavimo tyrimo rezultatai
+
+| Versija | Optimizavimas | 100 000 (s) | 1 000 000 (s) | EXE dydis (B) |
+|---|---|---:|---:|---:|
+| struct | O1 | 0.00876934 | 0.101114 | 263643 |
+| struct | O2 | 0.00954166 | 0.0988225 | 242282 |
+| struct | O3 | 0.0109257 | 0.110125 | 268143 |
+| class | O1 | 0.0086839 | 0.111039 | 258742 |
+| class | O2 | 0.00951836 | 0.103885 | 240255 |
+| class | O3 | 0.0107416 | 0.110454 | 261428 |
+
+### Rezultatų analizė
+
+Atliekant bandymus pastebėjau, kad su 100 000 studentų class
+realizacija veikė šiek tiek greičiau, o su 1 000 000 studentų
+greitesnė buvo struct realizacija.
+
+Greičiausi 100 000 studentų skirstymo rezultatai gauti naudojant
+O1 optimizavimą. Skirstant 1 000 000 studentų geriausiai
+pasirodė O2 optimizavimas.
+
+O2 optimizavimas taip pat sukūrė mažiausius vykdomuosius failus
+abiejose programos versijose.
+
+### Išvados
+
+Tyrimas parodė, kad class realizacija nebūtinai veikia lėčiau
+už struct. Abiejų versijų skirstymo laikai buvo panašūs.
+
+Mano bandymuose O2 optimizavimo lygis buvo tinkamiausias
+milijono studentų skirstymui, nes užtikrino trumpiausią
+skirstymo laiką ir mažiausią EXE failo dydį.
