@@ -228,3 +228,23 @@ už struct. Abiejų versijų skirstymo laikai buvo panašūs.
 Mano bandymuose O2 optimizavimo lygis buvo tinkamiausias
 milijono studentų skirstymui, nes užtikrino trumpiausią
 skirstymo laiką ir mažiausią EXE failo dydį.
+
+### v1.1 programos paleidimas
+
+Programai sukompiliuoti naudojamas CMake ir MinGW kompiliatorius.
+
+Kompiliavimo paruošimas:
+
+    cmake -S . -B build-v11 -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release
+
+Programos kompiliavimas:
+
+    cmake --build build-v11
+
+Programos paleidimas:
+
+    .\build-v11\studentai.exe
+
+Paleidus programą galima pasirinkti vector arba list konteinerį,
+duomenų įvedimo būdą, skirstymo strategiją ir automatinį
+skirstymo spartos testavimą.
